@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rpc.example.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.rpc.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <result column="created" property="created"/>
+        <result column="last_login" property="lastLogin"/>
+        <result column="permission" property="permission"/>
+    </resultMap>
+
+    <select id="getByUsername" resultMap="BaseResultMap">
+        SELECT id, username, avatar, email, password, status, created, last_login, permission
+        FROM m_user
+        WHERE username = #{username}
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT id, username, avatar, email, password, status, created, last_login, permission
+        FROM m_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByEmail" resultMap="BaseResultMap">
+        SELECT id, username, avatar, email, password, status, created, last_login, permission
+        FROM m_user
+        WHERE email = #{email}
+    </select>
+
+    <insert id="insert" parameterType="com.rpc.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_user (username, avatar, email, password, status, created, last_login, permission)
+        VALUES (#{username}, #{avatar}, #{email}, #{password}, #{status}, #{created}, #{lastLogin}, #{permission})
+    </insert>
+
+    <update id="updateLoginByid" >
+        UPDATE m_user SET last_login = #{lastLogin} WHERE id = #{id}
+    </update>
+</mapper>

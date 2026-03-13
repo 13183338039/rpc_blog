@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rpc.example.mapper.BlogLikeMapper">
+
+    <insert id="insert" parameterType="com.rpc.entity.BlogLike" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_blog_like (blog_id, user_id, created)
+        VALUES (#{blogId}, #{userId}, #{created})
+    </insert>
+
+    <select id="exists" resultType="int">
+        SELECT COUNT(1)
+        FROM m_blog_like
+        WHERE blog_id = #{blogId}
+          AND user_id = #{userId}
+    </select>
+
+</mapper>
+

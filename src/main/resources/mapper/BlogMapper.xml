@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rpc.example.mapper.BlogMapper">
+
+    <resultMap id="BaseResultMap" type="com.rpc.entity.Blog">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="content" property="content"/>
+        <result column="created" property="created"/>
+        <result column="status" property="status"/>
+        <result column="like_count" property="likeCount"/>
+    </resultMap>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT id, user_id, title, description, content, created, status, like_count
+        FROM m_blog
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT id, user_id, title, description, content, created, status, like_count
+        FROM m_blog
+        ORDER BY created DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="selectCount" resultType="long">
+        SELECT COUNT(*) FROM m_blog
+    </select>
+
+    <insert id="insert" parameterType="com.rpc.entity.Blog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_blog (user_id, title, description, content, created, status, like_count)
+        VALUES (#{userId}, #{title}, #{description}, #{content}, #{created}, #{status}, #{likeCount})
+    </insert>
+
+    <update id="updateById" parameterType="com.rpc.entity.Blog">
+        UPDATE m_blog
+        SET user_id = #{userId},
+            title = #{title},
+            description = #{description},
+            content = #{content},
+            created = #{created},
+            status = #{status},
+            like_count = #{likeCount}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM m_blog WHERE id = #{id}
+    </delete>
+
+    <select id="selectByStatus" resultMap="BaseResultMap">
+        SELECT id, user_id, title, description, content, created, status, like_count
+        FROM m_blog
+        WHERE status = #{status}
+        ORDER BY created DESC
+    </select>
+
+    <!-- 点赞数量自增 1 -->
+    <update id="increaseLikeCount">
+        UPDATE m_blog
+        SET like_count = COALESCE(like_count, 0) + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 点赞排行榜：按点赞数倒序、再按创建时间倒序 -->
+    <select id="selectTopLiked" resultMap="BaseResultMap">
+        SELECT id, user_id, title, description, content, created, status, like_count
+        FROM m_blog
+        ORDER BY like_count DESC, created DESC
+        LIMIT #{limit}
+    </select>
+</mapper>
