@@ -1,0 +1,38 @@
+# DataSource Config
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 18160000
+  kafka:
+    # 定义kafka的位置
+    bootstrap-servers: localhost:9092
+    # 话题的分组名称,是必须配置的
+    # 为了区分当前项目和其他项目使用的,防止不同项目相同话题的干扰
+    # 本质是在话题名称前添加项目名称为前缀来防止的
+    consumer:
+      group-id: cart
+    admin:
+      auto-create: true
+#  mail:
+#    host: smtp.qq.com
+#    port: 465
+#    username: 3551865260@qq.com
+#    password: fxjmkxxtwwdvdbgg
+#    default-encoding: UTF-8
+#    protocol: smtp
+#    properties:
+#      mail:
+#        smtp:
+#          ssl:
+#            enable: true
+#          socketFactory:
+#            class: javax.net.ssl.SSLSocketFactory
+#            port: 465
+#        debug: true
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
